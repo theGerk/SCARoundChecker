@@ -25,12 +25,20 @@ namespace SCARoundChecker
 			var doc = web.Load(link0);
 
 			//Get all links from the first table in doc
-			var tournaments = doc.DocumentNode.Descendants("table").FirstOrDefault().Descendants("a").Select(a => a.GetAttributeValue("href", "")).Distinct();
+			var relitiveLinks = doc.DocumentNode.Descendants("table").FirstOrDefault().Descendants("a").Select(a => a.GetAttributeValue("href", "")).Distinct();
+			var tournamentNames = relitiveLinks.Select(s => s.Split('/')[3]);
 
 			InitializeComponent();
 
 
-			label.Text = tournaments.Aggregate((a, b) => a + "\n" + b);
+			label.Text = tournamentNames.Aggregate((a, b) => a + "\n" + b);
+			foreach (var tournament in tournamentNames)
+			{
+				Button btn = new Button();
+				btn.Text = tournament;
+				buttons.Children.Add(btn);
+			}
+
 		}
 	}
 }
