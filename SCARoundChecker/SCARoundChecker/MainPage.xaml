@@ -7,7 +7,9 @@
     <StackLayout>
         <!-- Place new controls here -->
 		<Label x:Name="label"></Label>
-		<Label x:Name="stupid"></Label>
+		<StackLayout x:Name="buttons">
+			<!-- Here go buttons -->
+		</StackLayout>
 	</StackLayout>
 
 </ContentPage>

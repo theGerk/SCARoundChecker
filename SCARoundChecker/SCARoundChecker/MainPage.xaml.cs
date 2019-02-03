@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,31 +20,17 @@ namespace SCARoundChecker
 			if (now.Month <= 6)
 				season--;
 			string link0 = $"http://www.schoolchess.org/old/results/ChooseTour.php?season={season}-{season+1}&tourDate={now.ToString("yyyy-MM-dd")}";
+			
+			var web = new HtmlWeb();
+			var doc = web.Load(link0);
 
-
-			// Create a request for the URL. 		
-			WebRequest request = WebRequest.Create(link0);
-			// If required by the server, set the credentials.
-			request.Credentials = CredentialCache.DefaultCredentials;
-			// Get the response.
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			// Display the status.
-			Console.WriteLine(response.StatusDescription);
-			// Get the stream containing content returned by the server.
-			Stream dataStream = response.GetResponseStream();
-			// Open the stream using a StreamReader for easy access.
-			StreamReader reader = new StreamReader(dataStream);
-			// Read the content.
-			string responseFromServer = reader.ReadToEnd();
-			// Cleanup the streams and the response.
-			reader.Close();
-			dataStream.Close();
-			response.Close();
-
+			//Get all links from the first table in doc
+			var tournaments = doc.DocumentNode.Descendants("table").FirstOrDefault().Descendants("a").Select(a => a.GetAttributeValue("href", "")).Distinct();
 
 			InitializeComponent();
-			label.Text = link0;
-			stupid.Text = responseFromServer;
+
+
+			label.Text = tournaments.Aggregate((a, b) => a + "\n" + b);
 		}
 	}
 }
