@@ -6,10 +6,8 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-		<Label x:Name="label" HeightRequest="50" WidthRequest="1000"></Label>
-		<WebView x:Name="webView"
-				 WidthRequest="1000"
-				 HeightRequest="1000"/>
-    </StackLayout>
+		<Label x:Name="label"></Label>
+		<Label x:Name="stupid"></Label>
+	</StackLayout>
 
 </ContentPage>
